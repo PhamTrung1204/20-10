@@ -1,5 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
   const backgroundMusic = document.getElementById("background-music");
+  const toggleMusicButton = document.getElementById("toggle-music-button");
+  const letterButton = document.getElementById("letter-button");
+  const wishMessageContainer = document.getElementById(
+    "wish-message-container"
+  );
+
+  // Cập nhật biểu tượng nút theo trạng thái âm nhạc
+  function updateButtonIcon() {
+    if (backgroundMusic.paused) {
+      toggleMusicButton.textContent = "🔇"; // Biểu tượng khi tắt âm
+    } else {
+      toggleMusicButton.textContent = "🔊"; // Biểu tượng khi bật âm
+    }
+  }
 
   // Kiểm tra trạng thái nhạc trong localStorage
   if (localStorage.getItem("musicEnabled") === "true") {
@@ -7,48 +21,34 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     backgroundMusic.pause(); // Dừng nhạc nếu chưa bật
   }
+  updateButtonIcon(); // Cập nhật biểu tượng nút
 
-  // Thêm sự kiện để bật/tắt nhạc
-  backgroundMusic.addEventListener("play", function () {
-    localStorage.setItem("musicEnabled", "true"); // Lưu trạng thái nhạc
+  // Thêm sự kiện để bật/tắt nhạc khi nhấn nút
+  toggleMusicButton.addEventListener("click", function () {
+    if (backgroundMusic.paused) {
+      backgroundMusic.play();
+      localStorage.setItem("musicEnabled", "true"); // Lưu trạng thái nhạc
+    } else {
+      backgroundMusic.pause();
+      localStorage.setItem("musicEnabled", "false"); // Cập nhật trạng thái nhạc
+    }
+    updateButtonIcon(); // Cập nhật biểu tượng nút
   });
 
-  backgroundMusic.addEventListener("pause", function () {
-    localStorage.setItem("musicEnabled", "false"); // Cập nhật trạng thái nhạc
+  // Thêm sự kiện để hiển thị lời chúc khi nhấn nút lá thư
+  letterButton.addEventListener("click", function () {
+    // Ẩn nút lá thư
+    letterButton.style.display = "none";
+
+    // Hiển thị lời chúc với hiệu ứng
+    wishMessageContainer.style.display = "block"; // Hiển thị lời chúc
+
+    // Tạo hiệu ứng xuất hiện
+    wishMessageContainer.classList.add("show"); // Thêm lớp để áp dụng hiệu ứng
+
+    // Loại bỏ hiệu ứng sau một khoảng thời gian
+    setTimeout(function () {
+      wishMessageContainer.classList.remove("show");
+    }, 15000); // Hiển thị trong 15 giây
   });
-
-  // Tạo hiệu ứng hiển thị lời chúc khi nhấn nút
-  document
-    .getElementById("letter-button")
-    .addEventListener("click", function () {
-      // Ẩn nút lá thư
-      document.getElementById("letter-button").style.display = "none";
-
-      // Hiển thị lời chúc với hiệu ứng
-      const wishMessageContainer = document.getElementById(
-        "wish-message-container"
-      );
-      wishMessageContainer.classList.add("show"); // Thêm lớp để kích hoạt hiệu ứng
-
-      // Đảm bảo phần tử được hiển thị trước khi áp dụng hiệu ứng
-      wishMessageContainer.style.display = "block";
-      setTimeout(() => {
-        wishMessageContainer.classList.remove("show"); // Bỏ lớp sau khi hiển thị
-      }, 15000); // Hiện lời chúc trong 3 giây trước khi ẩn lại
-    });
-
-  // Tạo hiệu ứng rơi hoa
-  function createFlower() {
-    const flower = document.createElement("div");
-    flower.classList.add("flower");
-    flower.style.left = Math.random() * 100 + "vw";
-    flower.style.animationDuration = Math.random() * 2 + 3 + "s"; // Tạo hiệu ứng rơi với thời gian ngẫu nhiên
-    document.getElementById("falling-flowers").appendChild(flower);
-
-    setTimeout(() => {
-      flower.remove();
-    }, 5000); // Loại bỏ hoa sau khi rơi xuống
-  }
-
-  setInterval(createFlower, 300); // Tạo hoa mới mỗi 300ms
 });

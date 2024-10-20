@@ -104,3 +104,28 @@ body {
   opacity: 1; /* Đặt opacity = 1 khi hiển thị */
   transform: scale(1); /* Đặt kích thước về bình thường khi hiển thị */
 }
+/* CSS cho nút bật/tắt âm thanh */
+.toggle-music-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f5a623;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.toggle-music-button:hover {
+  background-color: #f39c12;
+  transform: scale(1.1);
+}
+
+.toggle-music-button:focus {
+  outline: none;
+}
