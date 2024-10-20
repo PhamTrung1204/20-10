@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const wishMessageContainer = document.getElementById(
     "wish-message-container"
   );
+  const fallingFlowers = document.getElementById("falling-flowers"); // Lấy phần tử để chứa hoa rơi
 
   // Cập nhật biểu tượng nút theo trạng thái âm nhạc
   function updateButtonIcon() {
@@ -51,4 +52,22 @@ document.addEventListener("DOMContentLoaded", function () {
       wishMessageContainer.classList.remove("show");
     }, 15000); // Hiển thị trong 15 giây
   });
+
+  // Tạo hoa rơi
+  function createFallingFlower() {
+    const flower = document.createElement("div");
+    flower.classList.add("flower");
+    flower.style.left = Math.random() * 100 + "vw"; // Vị trí ngẫu nhiên theo chiều ngang
+    flower.style.animationDuration = Math.random() * 3 + 5 + "s"; // Tốc độ ngẫu nhiên
+    flower.style.opacity = Math.random() * 0.8 + 0.2; // Độ trong suốt ngẫu nhiên
+    fallingFlowers.appendChild(flower);
+
+    // Xóa hoa sau khi hoàn thành hiệu ứng rơi
+    setTimeout(function () {
+      flower.remove();
+    }, 10000); // Hoa sẽ bị loại bỏ sau 10 giây
+  }
+
+  // Tạo nhiều hoa rơi
+  setInterval(createFallingFlower, 500); // Tạo hoa mỗi 0.5 giây
 });
